@@ -1,6 +1,6 @@
 <?php
 
-use yii\db\Migration;
+use common\migrations\db\Migration;
 
 class m140703_123803_article extends Migration
 {

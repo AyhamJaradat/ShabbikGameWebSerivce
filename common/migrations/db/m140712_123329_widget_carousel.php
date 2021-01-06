@@ -1,6 +1,6 @@
 <?php
 
-use yii\db\Migration;
+use common\migrations\db\Migration;
 
 class m140712_123329_widget_carousel extends Migration
 {

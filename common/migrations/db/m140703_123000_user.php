@@ -1,7 +1,7 @@
 <?php
 
 use common\models\User;
-use yii\db\Migration;
+use common\migrations\db\Migration;
 
 class m140703_123000_user extends Migration
 {

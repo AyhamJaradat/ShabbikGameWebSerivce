@@ -1,6 +1,6 @@
 <?php
 
-use yii\db\Migration;
+use common\migrations\db\Migration;
 
 /**
  * Class m190130_155645_add_article_slug_index

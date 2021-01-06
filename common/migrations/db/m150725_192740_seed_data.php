@@ -1,7 +1,7 @@
 <?php
 
 use common\models\User;
-use yii\db\Migration;
+use common\migrations\db\Migration;
 
 class m150725_192740_seed_data extends Migration
 {
