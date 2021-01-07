@@ -20,8 +20,16 @@ $config = [
                 return $app->keyStorage->get('frontend.maintenance') === 'enabled';
             }
         ],
+//        'response' => [
+//            'format' => yii\web\Response::FORMAT_JSON,
+//            'charset' => 'UTF-8',
+//        ],
         'request' => [
+            'class' => yii\web\Request::class,
             'enableCookieValidation' => false,
+            'parsers' => [
+                'application/json' => yii\web\JsonParser::class,
+            ],
         ],
         'user' => [
             'class' => yii\web\User::class,
