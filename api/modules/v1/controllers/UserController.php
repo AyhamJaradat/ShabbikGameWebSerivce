@@ -11,7 +11,22 @@ use yii\filters\auth\QueryParamAuth;
 use yii\rest\Controller;
 use yii\rest\OptionsAction;
 
+
 /**
+ * @SWG\Swagger(
+ *     schemes={"http","https"},
+ *     basePath="/",
+ *     @SWG\Info(
+ *         version="1.0.0",
+ *         title="Yii2-Starter-Kit API Documentation",
+ *         description="API description...",
+ *         termsOfService="",
+ *         @SWG\License(
+ *             name="BSD License",
+ *             url="https://raw.githubusercontent.com/yii2-starter-kit/yii2-starter-kit/master/LICENSE.md"
+ *         )
+ *     ),
+ * )
  * @author Eugene Terentev <eugene@terentev.net>
  */
 class UserController extends Controller
@@ -36,6 +51,37 @@ class UserController extends Controller
         return $behaviors;
     }
 
+    /**
+     * @SWG\Get(path="/v1/article/index",
+     *     tags={"article", "index"},
+     *     summary="Retrieves the collection of Articles.",
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "Article collection response",
+     *         @SWG\Schema(ref = "#/definitions/Article")
+     *     ),
+     * )
+     *
+     * @SWG\Get(path="/v1/article/view",
+     *     tags={"Article"},
+     *     summary="Displays data of one article only",
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "Used to fetch information of a specific article.",
+     *         @SWG\Schema(ref = "#/definitions/Article")
+     *     ),
+     * )
+     *
+     * @SWG\Options(path="/v1/article/options",
+     *     tags={"Article"},
+     *     summary="Displays the options for the article resource.",
+     *     @SWG\Response(
+     *         response = 200,
+     *         description = "Displays the options available for the Article resource",
+     *         @SWG\Schema(ref = "#/definitions/Article")
+     *     ),
+     * )
+     */
     /**
      * @inheritdoc
      */

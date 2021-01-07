@@ -15,13 +15,15 @@ use yii\web\IdentityInterface;
  * User model
  *
  * @property integer $id
+ * @property string $firstName
+ * @property string $lastName
+ * @property string $faceBookId
+ * @property string $userKey
  * @property string $username
  * @property string $password_hash
  * @property string $email
  * @property string $auth_key
  * @property string $access_token
- * @property string $oauth_client
- * @property string $oauth_client_user_id
  * @property string $publicIdentity
  * @property integer $status
  * @property integer $created_at
@@ -29,7 +31,6 @@ use yii\web\IdentityInterface;
  * @property integer $logged_at
  * @property string $password write-only password
  *
- * @property \common\models\UserProfile $userProfile
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -144,9 +145,9 @@ class User extends ActiveRecord implements IdentityInterface
         return ArrayHelper::merge(
             parent::scenarios(),
             [
-                'oauth_create' => [
-                    'oauth_client', 'oauth_client_user_id', 'email', 'username', '!status'
-                ]
+//                'oauth_create' => [
+//                    'oauth_client', 'oauth_client_user_id', 'email', 'username', '!status'
+//                ]
             ]
         );
     }
@@ -156,10 +157,16 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function rules()
     {
+        // * @property string $firstName
+        // * @property string $lastName
+        // * @property string $faceBookId
+        // * @property string $userKey
         return [
             [['username', 'email'], 'unique'],
+            [['userKey'], 'required'],
             ['status', 'default', 'value' => self::STATUS_NOT_ACTIVE],
             ['status', 'in', 'range' => array_keys(self::statuses())],
+            [['firstName', 'lastName', 'faceBookId', 'userKey'], 'string', 'max' => 255],
             [['username'], 'filter', 'filter' => '\yii\helpers\Html::encode']
         ];
     }
@@ -188,18 +195,16 @@ class User extends ActiveRecord implements IdentityInterface
             'status' => Yii::t('common', 'Status'),
             'access_token' => Yii::t('common', 'API access token'),
             'created_at' => Yii::t('common', 'Created at'),
+            'firstName' => Yii::t('common', 'First Name'),
+            'lastName' => Yii::t('common', 'Last Name'),
+            'faceBookId' => Yii::t('common', 'Facebook Id'),
+            'userKey' => Yii::t('common', 'User FCM Key'),
             'updated_at' => Yii::t('common', 'Updated at'),
             'logged_at' => Yii::t('common', 'Last login'),
         ];
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getUserProfile()
-    {
-        return $this->hasOne(UserProfile::class, ['user_id' => 'id']);
-    }
+
 
     /**
      * @inheritdoc
@@ -254,10 +259,7 @@ class User extends ActiveRecord implements IdentityInterface
                 'created_at' => $this->created_at
             ]
         ]));
-        $profile = new UserProfile();
-        $profile->locale = Yii::$app->language;
-        $profile->load($profileData, '');
-        $this->link('userProfile', $profile);
+
         $this->trigger(self::EVENT_AFTER_SIGNUP);
         // Default role
         $auth = Yii::$app->authManager;
@@ -269,8 +271,9 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function getPublicIdentity()
     {
-        if ($this->userProfile && $this->userProfile->getFullname()) {
-            return $this->userProfile->getFullname();
+
+        if ($this->firstName || $this->lastName) {
+            return implode(' ', [$this->firstName, $this->lastName]);
         }
         if ($this->username) {
             return $this->username;

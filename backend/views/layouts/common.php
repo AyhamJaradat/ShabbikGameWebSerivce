@@ -78,15 +78,12 @@ Yii::info(Yii::$app->components["i18n"]["translations"]['*']['class'], 'test');
                     <!-- User Account: style can be found in dropdown.less -->
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <img src="<?php echo Yii::$app->user->identity->userProfile->getAvatar($this->assetManager->getAssetUrl($bundle, 'img/anonymous.jpg')) ?>"
-                                 class="user-image">
+
                             <span><?php echo Yii::$app->user->identity->username ?> <i class="caret"></i></span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->
                             <li class="user-header light-blue">
-                                <img src="<?php echo Yii::$app->user->identity->userProfile->getAvatar($this->assetManager->getAssetUrl($bundle, 'img/anonymous.jpg')) ?>"
-                                     class="img-circle" alt="User Image"/>
                                 <p>
                                     <?php echo Yii::$app->user->identity->username ?>
                                     <small>
@@ -121,7 +118,6 @@ Yii::info(Yii::$app->components["i18n"]["translations"]['*']['class'], 'test');
             <!-- Sidebar user panel -->
             <div class="user-panel">
                 <div class="pull-left image">
-                    <img src="<?php echo Yii::$app->user->identity->userProfile->getAvatar($this->assetManager->getAssetUrl($bundle, 'img/anonymous.jpg')) ?>" class="img-circle" />
                 </div>
                 <div class="pull-left info">
                     <p><?php echo Yii::t('backend', 'Hello, {username}', ['username' => Yii::$app->user->identity->getPublicIdentity()]) ?></p>
@@ -156,65 +152,8 @@ Yii::info(Yii::$app->components["i18n"]["translations"]['*']['class'], 'test');
                         'active' => Yii::$app->controller->id === 'user',
                         'visible' => Yii::$app->user->can('administrator'),
                     ],
-                    [
-                        'label' => Yii::t('backend', 'Content'),
-                        'options' => ['class' => 'header'],
-                    ],
-                    [
-                        'label' => Yii::t('backend', 'Static pages'),
-                        'url' => ['/content/page/index'],
-                        'icon' => '<i class="fa fa-thumb-tack"></i>',
-                        'active' => Yii::$app->controller->id === 'page',
-                    ],
-                    [
-                        'label' => Yii::t('backend', 'Articles'),
-                        'url' => '#',
-                        'icon' => '<i class="fa fa-files-o"></i>',
-                        'options' => ['class' => 'treeview'],
-                        'active' => 'content' === Yii::$app->controller->module->id &&
-                            ('article' === Yii::$app->controller->id || 'category' === Yii::$app->controller->id),
-                        'items' => [
-                            [
-                                'label' => Yii::t('backend', 'Articles'),
-                                'url' => ['/content/article/index'],
-                                'icon' => '<i class="fa fa-file-o"></i>',
-                                'active' => Yii::$app->controller->id === 'article',
-                            ],
-                            [
-                                'label' => Yii::t('backend', 'Categories'),
-                                'url' => ['/content/category/index'],
-                                'icon' => '<i class="fa fa-folder-open-o"></i>',
-                                'active' => Yii::$app->controller->id === 'category',
-                            ],
-                        ],
-                    ],
-                    [
-                        'label' => Yii::t('backend', 'Widgets'),
-                        'url' => '#',
-                        'icon' => '<i class="fa fa-code"></i>',
-                        'options' => ['class' => 'treeview'],
-                        'active' => Yii::$app->controller->module->id === 'widget',
-                        'items' => [
-                            [
-                                'label' => Yii::t('backend', 'Text Blocks'),
-                                'url' => ['/widget/text/index'],
-                                'icon' => '<i class="fa fa-circle-o"></i>',
-                                'active' => Yii::$app->controller->id === 'text',
-                            ],
-                            [
-                                'label' => Yii::t('backend', 'Menu'),
-                                'url' => ['/widget/menu/index'],
-                                'icon' => '<i class="fa fa-circle-o"></i>',
-                                'active' => Yii::$app->controller->id === 'menu',
-                            ],
-                            [
-                                'label' => Yii::t('backend', 'Carousel'),
-                                'url' => ['/widget/carousel/index'],
-                                'icon' => '<i class="fa fa-circle-o"></i>',
-                                'active' => in_array(Yii::$app->controller->id, ['carousel', 'carousel-item']),
-                            ],
-                        ],
-                    ],
+
+
                     [
                         'label' => Yii::t('backend', 'Translation'),
                         'options' => ['class' => 'header'],

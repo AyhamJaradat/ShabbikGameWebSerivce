@@ -12,8 +12,4 @@ class User extends \common\models\User
         return ['id', 'username', 'created_at'];
     }
 
-    public function extraFields()
-    {
-        return ['userProfile'];
-    }
 }
