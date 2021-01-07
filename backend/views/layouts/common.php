@@ -152,6 +152,20 @@ Yii::info(Yii::$app->components["i18n"]["translations"]['*']['class'], 'test');
                         'active' => Yii::$app->controller->id === 'user',
                         'visible' => Yii::$app->user->can('administrator'),
                     ],
+                    [
+                        'label' => Yii::t('backend', 'Games'),
+                        'icon' => '<i class="fa fa-users"></i>',
+                        'url' => ['/game/index'],
+                        'active' => Yii::$app->controller->id === 'game',
+                        'visible' => Yii::$app->user->can('administrator'),
+                    ],
+                    [
+                        'label' => Yii::t('backend', 'Rounds'),
+                        'icon' => '<i class="fa fa-users"></i>',
+                        'url' => ['/round/index'],
+                        'active' => Yii::$app->controller->id === 'round',
+                        'visible' => Yii::$app->user->can('administrator'),
+                    ],
 
 
                     [
