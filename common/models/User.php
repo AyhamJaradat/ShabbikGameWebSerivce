@@ -13,6 +13,7 @@ use yii\web\IdentityInterface;
 
 /**
  * User model
+ * This is the model class for table "{{%user}}".
  *
  * @property integer $id
  * @property string $firstName
@@ -30,6 +31,9 @@ use yii\web\IdentityInterface;
  * @property integer $updated_at
  * @property integer $logged_at
  * @property string $password write-only password
+ *
+ * @property Game[] $gamesAsFirstUser
+ * @property Game[] $gamesAsSecondUser
  *
  */
 class User extends ActiveRecord implements IdentityInterface
@@ -162,12 +166,21 @@ class User extends ActiveRecord implements IdentityInterface
         // * @property string $faceBookId
         // * @property string $userKey
         return [
+            [['status', 'created_at', 'updated_at', 'logged_at'], 'integer'],
             [['username', 'email'], 'unique'],
-            [['userKey'], 'required'],
+            [['userKey','email',], 'required'],
             ['status', 'default', 'value' => self::STATUS_NOT_ACTIVE],
             ['status', 'in', 'range' => array_keys(self::statuses())],
-            [['firstName', 'lastName', 'faceBookId', 'userKey'], 'string', 'max' => 255],
-            [['username'], 'filter', 'filter' => '\yii\helpers\Html::encode']
+            [['firstName', 'lastName', 'faceBookId', 'userKey','email', 'password_hash'], 'string', 'max' => 255],
+            [['username', 'auth_key'], 'string', 'max' => 32],
+            [['username'], 'filter', 'filter' => '\yii\helpers\Html::encode'],
+            [['access_token'], 'string', 'max' => 40],
+
+//            [['userKey', 'email', 'auth_key', 'access_token', 'password_hash'], 'required'],
+
+
+
+
         ];
     }
 
@@ -288,4 +301,21 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return $this->getPrimaryKey();
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getGamesAsFirstUser()
+    {
+        return $this->hasMany(Game::className(), ['firstUserId' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getGamesAsSecondUser()
+    {
+        return $this->hasMany(Game::className(), ['secondUserId' => 'id']);
+    }
+
 }

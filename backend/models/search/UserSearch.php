@@ -5,6 +5,7 @@ namespace backend\models\search;
 use common\models\User;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
+use Yii;
 
 /**
  * UserSearch represents the model behind the search form about `common\models\User`.
@@ -20,7 +21,7 @@ class UserSearch extends User
             [['id', 'status'], 'integer'],
             [['created_at', 'updated_at', 'logged_at'], 'filter', 'filter' => 'strtotime', 'skipOnEmpty' => true],
             [['created_at', 'updated_at', 'logged_at'], 'default', 'value' => null],
-            [['username', 'auth_key', 'password_hash', 'email'], 'safe'],
+            [['username', 'auth_key', 'password_hash', 'email','firstName', 'lastName', 'faceBookId', 'userKey',  'access_token'], 'safe'],
         ];
     }
 
@@ -69,7 +70,12 @@ class UserSearch extends User
         $query->andFilterWhere(['like', 'username', $this->username])
             ->andFilterWhere(['like', 'auth_key', $this->auth_key])
             ->andFilterWhere(['like', 'password_hash', $this->password_hash])
-            ->andFilterWhere(['like', 'email', $this->email]);
+            ->andFilterWhere(['like', 'email', $this->email])
+            ->andFilterWhere(['like', 'firstName', $this->firstName])
+            ->andFilterWhere(['like', 'lastName', $this->lastName])
+            ->andFilterWhere(['like', 'faceBookId', $this->faceBookId])
+            ->andFilterWhere(['like', 'userKey', $this->userKey])
+            ->andFilterWhere(['like', 'access_token', $this->access_token]);
 
         return $dataProvider;
     }

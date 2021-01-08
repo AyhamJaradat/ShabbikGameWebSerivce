@@ -14,6 +14,13 @@ use yii\bootstrap\ActiveForm;
 <div class="user-form">
 
     <?php $form = ActiveForm::begin() ?>
+<!--    --><?php //echo $form->field($model, 'firstName')->textInput(['maxlength' => true]) ?>
+<!---->
+<!--    --><?php //echo $form->field($model, 'lastName')->textInput(['maxlength' => true]) ?>
+<!---->
+<!--    --><?php //echo $form->field($model, 'faceBookId')->textInput(['maxlength' => true]) ?>
+<!---->
+<!--    --><?php //echo $form->field($model, 'userKey')->textInput(['maxlength' => true]) ?>
         <?php echo $form->field($model, 'username') ?>
         <?php echo $form->field($model, 'email') ?>
         <?php echo $form->field($model, 'password')->passwordInput() ?>

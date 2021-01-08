@@ -24,22 +24,85 @@ $this->params['breadcrumbs'][] = $this->title;
 ]), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
+<!--    --><?php //echo GridView::widget([
+//        'dataProvider' => $dataProvider,
+//        'filterModel' => $searchModel,
+//        'options' => [
+//            'class' => 'grid-view table-responsive'
+//        ],
+//        'columns' => [
+//            'id',
+//            'username',
+//            'email:email',
+//            [
+//                'class' => EnumColumn::class,
+//                'attribute' => 'status',
+//                'enum' => User::statuses(),
+//                'filter' => User::statuses()
+//            ],
+//            [
+//                'attribute' => 'created_at',
+//                'format' => 'datetime',
+//                'filter' => DateTimeWidget::widget([
+//                    'model' => $searchModel,
+//                    'attribute' => 'created_at',
+//                    'phpDatetimeFormat' => 'dd.MM.yyyy',
+//                    'momentDatetimeFormat' => 'DD.MM.YYYY',
+//                    'clientEvents' => [
+//                        'dp.change' => new JsExpression('(e) => $(e.target).find("input").trigger("change.yiiGridView")')
+//                    ],
+//                ])
+//            ],
+//            [
+//                'attribute' => 'logged_at',
+//                'format' => 'datetime',
+//                'filter' => DateTimeWidget::widget([
+//                    'model' => $searchModel,
+//                    'attribute' => 'logged_at',
+//                    'phpDatetimeFormat' => 'dd.MM.yyyy',
+//                    'momentDatetimeFormat' => 'DD.MM.YYYY',
+//                    'clientEvents' => [
+//                        'dp.change' => new JsExpression('(e) => $(e.target).find("input").trigger("change.yiiGridView")')
+//                    ],
+//                ])
+//            ],
+//            // 'updated_at',
+//
+//            [
+//                'class' => 'yii\grid\ActionColumn',
+//                'template' => '{login} {view} {update} {delete}',
+//                'buttons' => [
+//                    'login' => function ($url) {
+//                        return Html::a(
+//                                '<i class="fa fa-sign-in" aria-hidden="true"></i>',
+//                                $url,
+//                                [
+//                                    'title' => Yii::t('backend', 'Login')
+//                                ]
+//                        );
+//                    },
+//                ],
+//                'visibleButtons' => [
+//                    'login' => Yii::$app->user->can('administrator')
+//                ]
+//
+//            ],
+//        ],
+//    ]); ?>
+
+
     <?php echo GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
-        'options' => [
-            'class' => 'grid-view table-responsive'
-        ],
         'columns' => [
+//            ['class' => 'yii\grid\SerialColumn'],
+
             'id',
-            'username',
-            'email:email',
-            [
-                'class' => EnumColumn::class,
-                'attribute' => 'status',
-                'enum' => User::statuses(),
-                'filter' => User::statuses()
-            ],
+            'firstName',
+            'lastName',
+            'faceBookId',
+            'userKey',
+             'email:email',
             [
                 'attribute' => 'created_at',
                 'format' => 'datetime',
@@ -53,40 +116,16 @@ $this->params['breadcrumbs'][] = $this->title;
                     ],
                 ])
             ],
-            [
-                'attribute' => 'logged_at',
-                'format' => 'datetime',
-                'filter' => DateTimeWidget::widget([
-                    'model' => $searchModel,
-                    'attribute' => 'logged_at',
-                    'phpDatetimeFormat' => 'dd.MM.yyyy',
-                    'momentDatetimeFormat' => 'DD.MM.YYYY',
-                    'clientEvents' => [
-                        'dp.change' => new JsExpression('(e) => $(e.target).find("input").trigger("change.yiiGridView")')
-                    ],
-                ])
-            ],
+            // 'username',
+            // 'auth_key',
+            // 'access_token',
+            // 'password_hash',
+            // 'status',
+            // 'created_at',
             // 'updated_at',
+            // 'logged_at',
 
-            [
-                'class' => 'yii\grid\ActionColumn',
-                'template' => '{login} {view} {update} {delete}',
-                'buttons' => [
-                    'login' => function ($url) {
-                        return Html::a(
-                                '<i class="fa fa-sign-in" aria-hidden="true"></i>',
-                                $url,
-                                [
-                                    'title' => Yii::t('backend', 'Login')
-                                ]
-                        );
-                    },
-                ],
-                'visibleButtons' => [
-                    'login' => Yii::$app->user->can('administrator')
-                ]
-
-            ],
+            ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
 
