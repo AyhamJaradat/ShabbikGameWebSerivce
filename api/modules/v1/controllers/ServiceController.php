@@ -8,6 +8,7 @@
 
 namespace api\modules\v1\controllers;
 
+use api\modules\v1\resources\AddGameForm;
 use api\modules\v1\resources\GeneralResponse;
 use api\modules\v1\resources\SignupForm;
 use api\modules\v1\resources\UpdateUserForm;
@@ -127,4 +128,64 @@ class ServiceController extends Controller
         return $response;
     }
 
+
+    /**
+     * @param $userid
+     * @return object
+     * @throws Exception
+     */
+    public function actionRandomUser($userid)
+    {
+        if(!\Yii::$app->request->isGet)
+        {
+            throw new Exception("Only Get request is allowed");
+        }
+
+        // find all users Except for first one and the given userid
+        $users = User::find()->andWhere(['!=','id',$userid])
+            ->andWhere(['!=','id',1])->all();
+
+        if(!$users || sizeof($users)<=0 ){
+            // no enough users
+            $response = (object)array('status'=>false);
+        }else{
+            //        get random user from the list
+            $k = array_rand($users);
+            $user = $users[$k];
+
+            $userObject = (object)array('id'=>$user->id, 'userFirstName'=>$user->firstName,
+                'userLastName'=>$user->lastName,'userKey'=>$user->userKey);
+
+            $response = (object)array('status'=>true, 'userObject'=>$userObject);
+        }
+
+
+
+
+        return $response;
+    }
+
+
+    /**
+     * @return object
+     * @throws Exception
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function actionAddGame()
+    {
+        if(!\Yii::$app->request->isPost)
+        {
+            throw new Exception("Only Post request is allowed");
+        }
+        // Set vars
+        $request = Yii::$app->getRequest();
+        $model = new AddGameForm();
+//        $response = new GeneralResponse();
+
+
+        // Load model
+        $model->setAttributes($request->getBodyParams());
+        $results = $model->addGame();
+        return $results;
+    }
 }

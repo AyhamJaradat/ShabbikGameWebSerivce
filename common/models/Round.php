@@ -35,7 +35,7 @@ class Round extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['gameId', 'roundNumber', 'gameConfiguration'], 'required'],
+            [['gameId', 'roundNumber'], 'required'],
             [['gameId', 'roundNumber', 'firstUserScore', 'secondUserScore', 'startDate', 'isFinished', 'created_at', 'updated_at'], 'integer'],
             [['gameConfiguration', 'roundSentence'], 'string', 'max' => 255],
         ];
