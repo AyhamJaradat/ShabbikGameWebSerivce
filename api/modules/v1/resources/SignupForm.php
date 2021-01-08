@@ -89,8 +89,15 @@ class SignupForm extends Model
             return false;
         }
 
+        // Check if already existing user has the same userKey
+        $existingUser= \common\models\User::find()->where(['userKey'=>$this->userKey])->one();
+        $existingUserEmail = \common\models\User::find()->where(['email'=>$this->userEmail])->one();
 
-
+        if($existingUser){
+            return $existingUser;
+        }else if($existingUserEmail){
+            return $existingUserEmail;
+        }else{
             $shouldBeActivated = false;
             $user = new User();
             $user->firstName = $this->userFirstName;
@@ -103,7 +110,8 @@ class SignupForm extends Model
             $user->status = $shouldBeActivated ? User::STATUS_NOT_ACTIVE : User::STATUS_ACTIVE;
             $user->setPassword($this->password);
             if (!$user->save()) {
-                throw new Exception("User couldn't be  saved");
+//                throw new Exception("User couldn't be  saved");
+                return false;
             };
             $user->afterSignup();
 //            if ($shouldBeActivated) {
@@ -122,11 +130,7 @@ class SignupForm extends Model
 //                ]));
 //            }
             return $user;
-
-
-        //*************
-
-
+        }
     }
 
 
