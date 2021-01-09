@@ -151,6 +151,10 @@ $config = [
             'class' => \yii\queue\file\Queue::class,
             'path' => '@common/runtime/queue',
         ],
+        'notification' => [
+            'class' =>  common\components\notification\Notification::class,
+            'apiLegacyServerKey' =>env('NOTIF_SERVER_KEY'),
+        ],
     ],
     'params' => [
         'adminEmail' => env('ADMIN_EMAIL'),

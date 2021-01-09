@@ -11,6 +11,7 @@ namespace api\modules\v1\resources;
 
 use common\models\Round;
 use yii\base\Model;
+use Yii;
 
 class UpdateGameRoundForm extends Model
 {
@@ -61,6 +62,7 @@ class UpdateGameRoundForm extends Model
             if($round->save()){
                 $round->refresh();
                 // send push notifications
+                $response = Yii::$app->notification->sendSecondUserNotification($round);
                 return $round;
             }
 

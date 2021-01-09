@@ -219,5 +219,12 @@ class ServiceController extends Controller
         return $response;
     }
 
+    public function actionTestNotif(){
+
+        $response = Yii::$app->notification->sendTestNotification(
+        );
+        return $response;
+    }
+
 
 }
