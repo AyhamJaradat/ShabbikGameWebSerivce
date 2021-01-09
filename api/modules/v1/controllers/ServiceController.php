@@ -11,6 +11,7 @@ namespace api\modules\v1\controllers;
 use api\modules\v1\resources\AddGameForm;
 use api\modules\v1\resources\GeneralResponse;
 use api\modules\v1\resources\SignupForm;
+use api\modules\v1\resources\UpdateGameRoundForm;
 use api\modules\v1\resources\UpdateUserForm;
 use common\models\User;
 use yii\base\Exception;
@@ -188,4 +189,35 @@ class ServiceController extends Controller
         $results = $model->addGame();
         return $results;
     }
+
+    /**
+     * @return object
+     * @throws Exception
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function actionUpdateGameRound()
+    {
+        if(!\Yii::$app->request->isPost)
+        {
+            throw new Exception("Only Post request is allowed");
+        }
+        // Set vars
+        $request = Yii::$app->getRequest();
+        $model = new UpdateGameRoundForm();
+
+        // Load model
+        $model->setAttributes($request->getBodyParams());
+        $results = $model->updateRound();
+        if ($results ) {
+
+            $response = (object)array('status'=>true, 'roundDate'=>$results->startDate."");
+        }else{
+
+            $response = (object)array('status'=>false);
+
+        }
+        return $response;
+    }
+
+
 }

@@ -3,18 +3,17 @@
 use common\migrations\db\Migration;
 
 /**
- * Class m210108_150715_change_some_columns_table
+ * Class m210109_094327_change_some_columns_table
  */
-class m210108_150715_change_some_columns_table extends Migration
+class m210109_094327_change_some_columns_table extends Migration
 {
-
     private $_tableName_round = '{{%round}}';
     /**
      * {@inheritdoc}
      */
     public function safeUp()
     {
-        $this->alterColumn($this->_tableName_round, 'gameConfiguration',$this->string()->defaultValue(null));
+        $this->alterColumn($this->_tableName_round, 'roundSentence',$this->integer()->defaultValue(null));
     }
 
     /**
@@ -34,7 +33,7 @@ class m210108_150715_change_some_columns_table extends Migration
 
     public function down()
     {
-        echo "m210108_150715_change_some_columns_table cannot be reverted.\n";
+        echo "m210109_094327_change_some_columns_table cannot be reverted.\n";
 
         return false;
     }

@@ -14,13 +14,16 @@ use Yii;
  * @property int $secondUserScore
  * @property int $startDate
  * @property string $gameConfiguration
- * @property string $roundSentence
+ * @property int $roundSentence
  * @property int $isFinished
  * @property int $created_at
  * @property int $updated_at
  */
 class Round extends \yii\db\ActiveRecord
 {
+
+    const I_AM_FIRST_USER = 1;
+    const I_AM_SECOND_USER = 2;
     /**
      * {@inheritdoc}
      */
@@ -37,7 +40,8 @@ class Round extends \yii\db\ActiveRecord
         return [
             [['gameId', 'roundNumber'], 'required'],
             [['gameId', 'roundNumber', 'firstUserScore', 'secondUserScore', 'startDate', 'isFinished', 'created_at', 'updated_at'], 'integer'],
-            [['gameConfiguration', 'roundSentence'], 'string', 'max' => 255],
+            [['gameConfiguration' ], 'string', 'max' => 255],
+            [['roundSentence'],'integer']
         ];
     }
 
