@@ -10,6 +10,7 @@ namespace common\components\notification;
 
 
 use common\models\Game;
+use common\models\PullNotification;
 use common\models\Round;
 use yii\base\Component;
 use yii\base\InvalidConfigException;
@@ -80,7 +81,7 @@ class Notification extends Component
         //secondUserGCMKey
         $fcm_token = "";
 
-        //TODO: Insert new notification in notification table abd get the id
+        //TODO: Insert new notification in notification table and get the id
 
         $game = Game::find()->where(['id'=>$round->gameId])->one();
         $gameObject = (object)array('id'=>$game->id, 'firstUserId'=>$game->firstUserId,
@@ -119,13 +120,27 @@ class Notification extends Component
             'roundConfigration'=>$round->gameConfiguration) ;
 
 
+        // insert new pull notification
+        $pullNotif = new PullNotification();
+        $pullNotif->setAttributes([
+            'roundId'=>$round->id,
+            'whoAmI'=> 2,
+            'userId'=>$secondUser->id,
+            'notificationStatus'=>0
+        ]);
+        $notificationId =0;
+        if($pullNotif->save()){
+            $notificationId = $pullNotif->id;
+        }
+
+
         $notifData = [
 //            'notification_type' => $type,
             'badge' => 0,
             'whichUserAmI'=>2,
             'roundNumber'=>$round->roundNumber,
             'roundId'=>$round->id,
-            'notificationId'=>1,//TODO
+            'notificationId'=>$notificationId,
 
         ];
         if($round->roundNumber ==1 ){

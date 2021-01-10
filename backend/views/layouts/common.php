@@ -166,6 +166,13 @@ Yii::info(Yii::$app->components["i18n"]["translations"]['*']['class'], 'test');
                         'active' => Yii::$app->controller->id === 'round',
                         'visible' => Yii::$app->user->can('administrator'),
                     ],
+                    [
+                        'label' => Yii::t('backend', 'Pull Notif'),
+                        'icon' => '<i class="fa fa-users"></i>',
+                        'url' => ['/pull-notification/index'],
+                        'active' => Yii::$app->controller->id === 'pull-notification',
+                        'visible' => Yii::$app->user->can('administrator'),
+                    ],
 
 
                     [

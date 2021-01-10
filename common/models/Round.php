@@ -18,6 +18,9 @@ use Yii;
  * @property int $isFinished
  * @property int $created_at
  * @property int $updated_at
+ *
+ * @property PullNotification[] $pullNotifications
+ * @property Game $game
  */
 class Round extends \yii\db\ActiveRecord
 {
@@ -39,9 +42,9 @@ class Round extends \yii\db\ActiveRecord
     {
         return [
             [['gameId', 'roundNumber'], 'required'],
-            [['gameId', 'roundNumber', 'firstUserScore', 'secondUserScore', 'startDate', 'isFinished', 'created_at', 'updated_at'], 'integer'],
+            [['gameId', 'roundNumber', 'firstUserScore', 'secondUserScore', 'startDate','roundSentence', 'isFinished', 'created_at', 'updated_at'], 'integer'],
             [['gameConfiguration' ], 'string', 'max' => 255],
-            [['roundSentence'],'integer']
+            [['gameId'], 'exist', 'skipOnError' => true, 'targetClass' => Game::className(), 'targetAttribute' => ['gameId' => 'id']],
         ];
     }
 
@@ -63,6 +66,22 @@ class Round extends \yii\db\ActiveRecord
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPullNotifications()
+    {
+        return $this->hasMany(PullNotification::className(), ['roundId' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getGame()
+    {
+        return $this->hasOne(Game::className(), ['id' => 'gameId']);
     }
 
     /**

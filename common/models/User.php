@@ -34,6 +34,7 @@ use yii\web\IdentityInterface;
  *
  * @property Game[] $gamesAsFirstUser
  * @property Game[] $gamesAsSecondUser
+ * @property PullNotification[] $pullNotifications
  *
  */
 class User extends ActiveRecord implements IdentityInterface
@@ -181,6 +182,8 @@ class User extends ActiveRecord implements IdentityInterface
 
 
 
+
+
         ];
     }
 
@@ -316,6 +319,14 @@ class User extends ActiveRecord implements IdentityInterface
     public function getGamesAsSecondUser()
     {
         return $this->hasMany(Game::className(), ['secondUserId' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPullNotifications()
+    {
+        return $this->hasMany(PullNotification::className(), ['userId' => 'id']);
     }
 
 }
