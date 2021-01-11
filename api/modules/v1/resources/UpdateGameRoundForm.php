@@ -33,7 +33,7 @@ class UpdateGameRoundForm extends Model
         return [
             [['roundConfig'], 'filter', 'filter' => 'trim'],
             [['whichUserAmI','roundId','roundScore'], 'required'],
-            [['roundScore','roundId','whichUserAmI'], 'integer'],
+            [['roundScore','roundId','whichUserAmI','roundSentence'], 'integer'],
             [['roundId'], 'exist', 'skipOnError' => true, 'targetClass' => '\common\models\Round', 'targetAttribute' => 'id'],
             ['roundConfig', 'string'],
         ];
