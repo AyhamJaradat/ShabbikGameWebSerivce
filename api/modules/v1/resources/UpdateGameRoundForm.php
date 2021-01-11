@@ -74,6 +74,8 @@ class UpdateGameRoundForm extends Model
             if($round->save()){
                 $round->refresh();
                 // send push notifications
+                $response = Yii::$app->notification->sendFirstUserNotification($round);
+
                 return $round;
             }
         }else{

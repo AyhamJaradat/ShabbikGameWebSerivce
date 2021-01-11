@@ -52,6 +52,100 @@ class Notification extends Component
         }
     }
 
+    public function sendFirstUserNotification(Round $round){
+        $title = "titleOfNotif";
+        $body ="body";
+
+        //secondUserGCMKey
+        $fcm_token = "";
+
+        //TODO: Insert new notification in notification table and get the id
+
+        $game = Game::find()->where(['id'=>$round->gameId])->one();
+//        $gameObject = (object)array('id'=>$game->id, 'firstUserId'=>$game->firstUserId,
+//            'secondUserId'=>$game->secondUserId,'gameMode'=> $game->gameMode, 'timeString'=>$game->startDate."");
+
+        $firstUser = $game->firstUser;
+        // id fname,lnamekey, fb
+//        $firstUserObject = (object)array('id'=>$firstUser->id, 'userFirstName'=>$firstUser->firstName,
+//            'userLastName'=>$firstUser->lastName,'userKey'=> $firstUser->userKey, 'userFBId'=>$firstUser->faceBookId);
+
+        //
+//        $secondUser = $game->secondUser;
+        $fcm_token = $firstUser->userKey;
+        // game rounds
+//        $rounds = Round::find()->where(['gameId'=>$game->id])->all();
+//
+//
+//
+//        $round1 =(object)array('id'=>$rounds[0]->id, 'roundNumber'=>$rounds[0]->roundNumber,
+//            'isFinished'=>$rounds[0]->isFinished==1 ,'gameId'=>$game->id , 'firstUserScore'=>$rounds[0]->firstUserScore,
+//            'secondUserScore'=>$rounds[0]->secondUserScore,'roundSentence'=>$rounds[0]->roundSentence,
+//            'roundConfigration'=>$rounds[0]->gameConfiguration) ;
+//        $round2 = (object)array('id'=>$rounds[1]->id, 'roundNumber'=>$rounds[1]->roundNumber,
+//            'isFinished'=>$rounds[1]->isFinished==1 ,'gameId'=>$game->id, 'firstUserScore'=>$rounds[1]->firstUserScore,
+//            'secondUserScore'=>$rounds[1]->secondUserScore,'roundSentence'=>$rounds[1]->roundSentence,
+//            'roundConfigration'=>$rounds[1]->gameConfiguration) ;
+//        $round3 =(object)array('id'=>$rounds[2]->id, 'roundNumber'=>$rounds[2]->roundNumber,
+//            'isFinished'=>$rounds[2]->isFinished==1 ,'gameId'=>$game->id, 'firstUserScore'=>$rounds[2]->firstUserScore,
+//            'secondUserScore'=>$rounds[2]->secondUserScore,'roundSentence'=>$rounds[2]->roundSentence,
+//            'roundConfigration'=>$rounds[2]->gameConfiguration) ;
+
+        $currRoundObj = (object)array('id'=>$round->id, 'roundNumber'=>$round->roundNumber,
+            'isFinished'=>$round->isFinished==1 ,'gameId'=>$game->id , 'firstUserScore'=>$round->firstUserScore,
+            'secondUserScore'=>$round->secondUserScore,'roundSentence'=>$round->roundSentence,
+            'roundConfigration'=>$round->gameConfiguration) ;
+
+
+        // insert new pull notification
+        $pullNotif = new PullNotification();
+        $pullNotif->setAttributes([
+            'roundId'=>$round->id,
+            'whoAmI'=> 1,
+            'userId'=>$firstUser->id,
+            'notificationStatus'=>0
+        ]);
+        $notificationId =0;
+        if($pullNotif->save()){
+            $notificationId = $pullNotif->id;
+        }
+
+
+        $notifData = [
+//            'notification_type' => $type,
+            'badge' => 0,
+            'whichUserAmI'=>1,
+//            'roundNumber'=>$round->roundNumber,
+//            'roundId'=>$round->id,
+            'notificationId'=>$notificationId,
+            'roundObject' => $currRoundObj
+
+        ];
+//        if($round->roundNumber ==1 ){
+//
+//            $notifData['gameObject'] = $gameObject;
+//            $notifData['userObject'] = $firstUserObject;
+//            $notifData['arraySize'] = 3; // three rounds
+//            $notifData['gsonObject1'] = $round1;
+//            $notifData['gsonObject2'] = $round2;
+//            $notifData['gsonObject3'] = $round3;
+//        }else{
+//
+//            $notifData['roundObject'] = $currRoundObj;
+//        }
+
+
+        $data = [
+            "to" => $fcm_token,
+            "priority" => "normal",
+            "data" => $notifData,
+        ];
+
+        $lastNotificationResult = $this->postToFcm($data);
+
+        return $lastNotificationResult;
+    }
+
     /**
      * Send notification about round From firstUser to second User the user
      * should check whoAmI and roundNumber
