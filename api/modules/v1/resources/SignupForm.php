@@ -35,7 +35,7 @@ class SignupForm extends Model
     {
         return [
             [['userFirstName','userLastName','userEmail','userFBId','userKey'], 'filter', 'filter' => 'trim'],
-            [['userFirstName','userLastName','userEmail','userKey'], 'required'],
+            [['userFirstName','userEmail','userKey'], 'required'],
 //            ['userEmail', 'unique',
 //                'targetClass' => '\common\models\User',
 //                'message' => Yii::t('frontend', 'This email has already been taken.')
@@ -101,6 +101,7 @@ class SignupForm extends Model
             $shouldBeActivated = false;
             $user = new User();
             $user->firstName = $this->userFirstName;
+            if($this->userLastName)
             $user->lastName = $this->userLastName;
             $user->faceBookId = $this->userFBId;
             $user->userKey = $this->userKey;

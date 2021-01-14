@@ -23,7 +23,7 @@ class UpdateUserForm extends Model
     {
         return [
             [['userFirstName','userLastName','userFBId'], 'filter', 'filter' => 'trim'],
-            [['userFirstName','userLastName','userFBId','userId'], 'required'],
+            [['userFirstName','userFBId','userId'], 'required'],
             ['userId', 'integer'],
             [['userId'], 'exist', 'skipOnError' => true, 'targetClass' => '\common\models\User', 'targetAttribute' => 'id'],
         ];
@@ -41,12 +41,20 @@ class UpdateUserForm extends Model
 
         if($existingUser){
 
-            $existingUser->setAttributes([
-                'firstName'=>$this->userFirstName,
-                'lastName'=>$this->userLastName,
-                'faceBookId'=>$this->userFBId,
+            if($this->userLastName){
+                $existingUser->setAttributes([
+                    'firstName'=>$this->userFirstName,
+                    'lastName'=>$this->userLastName,
+                    'faceBookId'=>$this->userFBId,
 
-            ]);
+                ]);
+            }else{
+                $existingUser->setAttributes([
+                    'firstName'=>$this->userFirstName,
+                    'faceBookId'=>$this->userFBId,
+                ]);
+            }
+
             $existingUser->save();
             $existingUser->refresh();
             return $existingUser;
